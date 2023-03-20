@@ -38,7 +38,11 @@ export async function getOrdersId (req, res) {
     let {id} = req.params;
     try {
         const orderObj = await buildOrderId(id);
+        if (orderObj.rowCount === 0) {
+            res.sendStatus(404);
+        } else {
         res.status(200).send(orderObj.rows);
+        }
     } catch (error) {
         res.status(500).send(error.message);
     }
