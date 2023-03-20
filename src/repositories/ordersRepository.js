@@ -50,8 +50,9 @@ export async function buildOrder() {
         'price', cakes.price,
         'description', cakes.description,
         'image', cakes.image)AS cake,
+        to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
-        orders."totalPrice" as "totalPrice"
+        orders."totalPrice"
     FROM
 	    orders
     JOIN
