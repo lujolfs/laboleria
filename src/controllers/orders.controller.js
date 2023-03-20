@@ -16,7 +16,11 @@ export async function getOrders (req, res) {
     if (filter.date) {
         try {
             const orderObj = await buildOrderQuery(filter.date);
+            if (orderObj.rowCount === 0) {
+                res.sendStatus(404);
+            } else {
             res.status(200).send(orderObj.rows);
+            }
         } catch (error) {
             res.status(500).send(error.message);
         }
