@@ -1,4 +1,4 @@
-import { insertOrder, buildOrder, buildOrderQuery } from "../repositories/ordersRepository.js";
+import { insertOrder, buildOrder, buildOrderQuery, buildOrderId } from "../repositories/ordersRepository.js";
 import dayjs from "dayjs";
 
 export async function createOrder (req, res) {
@@ -31,5 +31,15 @@ export async function getOrders (req, res) {
         } catch (error) {
             res.status(500).send(error.message);
         }
+    }
+}
+
+export async function getOrdersId (req, res) {
+    let {id} = req.params;
+    try {
+        const orderObj = await buildOrderId(id);
+        res.status(200).send(orderObj.rows);
+    } catch (error) {
+        res.status(500).send(error.message);
     }
 }
