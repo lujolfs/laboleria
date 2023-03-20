@@ -10,7 +10,7 @@ export async function insertOrder(order) {
     `, [clientId, cakeId, quantity, totalPrice, createdAt]);
 }
 
-export async function checkClient (input) {
+export async function checkClient(input) {
     const {clientId} = input;
 
     return db.query(`
@@ -23,7 +23,7 @@ export async function checkClient (input) {
     `, [clientId]);
 }
 
-export async function checkCake (input) {
+export async function checkCake(input) {
     const {cakeId} = input;
 
     return db.query(`
@@ -34,4 +34,33 @@ export async function checkCake (input) {
         WHERE
             id=$1;
     `, [cakeId]);
+}
+
+export async function buildOrder() {
+    return db.query(`
+    SELECT 
+        json_build_object(
+        'id', clients.id,
+        'name', clients.name,
+        'address', clients.address,
+        'phone', clients.phone)AS client,
+        json_build_object(
+        'id', cakes.id,
+        'name', cakes.name,
+        'price', cakes.price,
+        'description', cakes.description,
+        'image', cakes.image)AS cake,
+        orders.quantity,
+        orders."totalPrice" as "totalPrice"
+    FROM
+	    orders
+    JOIN
+	    clients
+    ON
+	    orders."clientId" = clients.id
+    JOIN
+	    cakes
+    ON
+	    orders."cakeId" = cakes.id;
+    `)
 }
