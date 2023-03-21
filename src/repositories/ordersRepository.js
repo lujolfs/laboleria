@@ -49,6 +49,7 @@ export async function buildOrder() {
         'name', cakes.name,
         'price', cakes.price,
         'description', cakes.description,
+        'flavour', flavours.name,
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
@@ -62,7 +63,11 @@ export async function buildOrder() {
     JOIN
 	    cakes
     ON
-	    orders."cakeId" = cakes.id;
+	    orders."cakeId" = cakes.id
+    JOIN
+        flavours
+    ON
+        cakes."flavourId" = flavours.id;
     `)
 }
 
@@ -79,6 +84,7 @@ export async function buildOrderQuery(input) {
         'name', cakes.name,
         'price', cakes.price,
         'description', cakes.description,
+        'flavour', flavours.name,
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
@@ -93,6 +99,10 @@ export async function buildOrderQuery(input) {
 	    cakes
     ON
 	    orders."cakeId" = cakes.id
+    JOIN
+        flavours
+    ON
+        cakes."flavourId" = flavours.id
     WHERE
         DATE(orders."createdAt")=$1;
     `, [input])
@@ -111,6 +121,7 @@ export async function buildOrderId(input) {
         'name', cakes.name,
         'price', cakes.price,
         'description', cakes.description,
+        'flavour', flavours.name,
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
@@ -125,6 +136,10 @@ export async function buildOrderId(input) {
 	    cakes
     ON
 	    orders."cakeId" = cakes.id
+    JOIN
+        flavours
+    ON
+        cakes."flavourId" = flavours.id
     WHERE
         orders.id=$1;
     `, [input])

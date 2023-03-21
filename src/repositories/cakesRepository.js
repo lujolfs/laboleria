@@ -1,13 +1,13 @@
 import {db} from "../database/db.js";
 
 export async function insertCake (user) {
-    const {name, price, description, image} = user;
+    const {name, price, description, image, flavourId} = user;
     return db.query(`
         INSERT INTO cakes
-            (name, price, description, image)
+            (name, price, description, image, "flavourId")
         VALUES
-            ($1, $2, $3, $4);
-    `, [name, price, description, image]);
+            ($1, $2, $3, $4, $5);
+    `, [name, price, description, image, flavourId]);
 }
 
 export async function checkDoubles (input) {
