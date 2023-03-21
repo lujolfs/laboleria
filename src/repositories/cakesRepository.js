@@ -22,3 +22,16 @@ export async function checkDoubles (input) {
             name=$1;
     `, [name]);
 }
+
+export async function checkFlavour (input) {
+    const {flavourId} = input;
+
+    return db.query(`
+        SELECT COUNT
+            (*)
+        FROM
+            flavours
+        WHERE
+            id=$1;
+    `, [flavourId])
+}
