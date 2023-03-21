@@ -1,4 +1,4 @@
-import { checkClientOrder, insertClient } from "../repositories/clientsRepository.js";
+import { checkClientOrder, insertClient, checkClient } from "../repositories/clientsRepository.js";
 
 export async function createClient (req, res) {
     try {
@@ -14,7 +14,12 @@ export async function findClientOrders (req, res) {
     try {
         const clientObj = await checkClientOrder(id);
         if (clientObj.rowCount === 0) {
-            res.sendStatus(404);
+            const checkIfClient = await checkClient(id);
+            if (checkIfClient.rows[0].count == 0) {
+                res.sendStatus(404);
+            } else {
+                res.status(200).send(clientObj.rows);
+            }
         } else {
         res.status(200).send(clientObj.rows);
         }

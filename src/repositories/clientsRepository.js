@@ -10,6 +10,18 @@ export async function insertClient (user) {
     `, [name, address, phone]);
 }
 
+export async function checkClient(input) {
+
+    return db.query(`
+    SELECT COUNT
+        (*)
+    FROM
+        clients
+    WHERE
+        id=$1;
+    `, [input])
+}
+
 export async function checkDoubles (input) {
     const {name} = input;
 
