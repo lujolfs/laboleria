@@ -144,3 +144,36 @@ export async function buildOrderId(input) {
         orders.id=$1;
     `, [input])
 }
+
+export async function updateDelivery(input) {
+    return db.query(`
+        UPDATE
+            orders
+        SET
+            "isDelivered" = true
+        WHERE
+            id=$1;
+    `, [input])
+}
+
+export async function checkOrder(id) {
+        return db.query(`
+        SELECT COUNT
+            (*)
+        FROM
+            orders
+        WHERE
+            id=$1;
+    `, [id]);
+}
+
+export async function checkDelivered(id) {
+    return db.query(`
+        SELECT
+            *
+        FROM
+            orders
+        WHERE
+            id=$1;
+    `, [id]);
+}
