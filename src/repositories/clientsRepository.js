@@ -44,7 +44,8 @@ export async function checkClientOrder (input) {
 		orders.quantity AS quantity,
     	to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
     	orders."totalPrice" AS totalPrice,
-    	cakes.name as "cakeName"
+    	cakes.name as "cakeName",
+        orders."isDelivered" as "isDelivered"
     FROM
         orders
     JOIN

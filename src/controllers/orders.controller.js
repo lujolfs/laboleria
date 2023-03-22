@@ -49,9 +49,8 @@ export async function getOrdersId (req, res) {
 }
 
 export async function patchDelivery (req, res) {
-    let {id} = req.userObject;
     try {
-        const updateOrder = await updateDelivery(id);
+        const updateOrder = await updateDelivery(req.userObject);
         res.sendStatus(204);
     } catch (error) {
         res.status(500).send(error.message);

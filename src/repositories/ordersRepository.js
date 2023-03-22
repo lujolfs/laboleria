@@ -53,7 +53,8 @@ export async function buildOrder() {
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
-        orders."totalPrice"
+        orders."totalPrice",
+        orders."isDelivered"
     FROM
 	    orders
     JOIN
@@ -88,7 +89,8 @@ export async function buildOrderQuery(input) {
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
-        orders."totalPrice"
+        orders."totalPrice",
+        orders."isDelivered"
     FROM
 	    orders
     JOIN
@@ -125,7 +127,8 @@ export async function buildOrderId(input) {
         'image', cakes.image)AS cake,
         to_char(orders."createdAt"::timestamp, 'YYYY-MM-DD HH24:MI') AS "createdAt",
         orders.quantity,
-        orders."totalPrice"
+        orders."totalPrice",
+        orders."isDelivered"
     FROM
 	    orders
     JOIN
@@ -145,7 +148,7 @@ export async function buildOrderId(input) {
     `, [input])
 }
 
-export async function updateDelivery(input) {
+export async function updateDelivery(id) {
     return db.query(`
         UPDATE
             orders
@@ -153,7 +156,7 @@ export async function updateDelivery(input) {
             "isDelivered" = true
         WHERE
             id=$1;
-    `, [input])
+    `, [id])
 }
 
 export async function checkOrder(id) {
