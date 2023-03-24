@@ -11,7 +11,7 @@ export async function schemaValidateRecipe (req, res, next) {
         if (errors == ("name" || "price" || "description")) {
             return res.sendStatus(400);
         } else {
-            return (res.sendStatus(422));
+            return (res.status(422).send("Make sure you are using a valid link. Use an http or https link"));
         }
     }
 
